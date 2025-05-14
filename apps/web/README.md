@@ -1,36 +1,30 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/create-next-app).
+// Example usage (within the blog system)
+async function mainBlog() {
+  // Added await keyword
+  const newPost = await blogSystem.createPost(
+    "My First Post",
+    "This is the content of my first post."
+  );
+  const allPosts = await blogSystem.getPosts();
+  const specificPost = await blogSystem.getPostById(newPost.id); // Use the id of the newly created post
+  const updatedPost = await blogSystem.updatePost(
+    newPost.id,
+    "My First Post - Updated",
+    "This is the updated content."
+  );
+  const deletedPost = await blogSystem.deletePost(newPost.id);
+}
 
-## Getting Started
+mainBlog();
 
-First, run the development server:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+async function mainAnalytics() {
+    // Seed some data for analytics
+    await prisma.post.create({ data: { title: "Post 1", content: "Content 1" } });
+    await prisma.post.create({ data: { title: "Post 2", content: "Content 2", createdAt: new Date(Date.now() - 12 * 60 * 60 * 1000) } }); // Post from 12 hours ago
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+    const totalPosts = await analyticsSystem.getTotalPosts();
+    const recentPosts = await analyticsSystem.getPostsCreatedLast24Hours();
+}
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+mainAnalytics();
